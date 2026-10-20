@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Coin dash"
+config/name="Coin Dash - Partes 2 e 3"
+run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,7 +20,6 @@ config/icon="res://icon.svg"
 window/size/viewport_width=480
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
 
 [physics]
 
