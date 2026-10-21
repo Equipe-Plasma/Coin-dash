@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://cki2gxlwwxw28"]
+
+[ext_resource type="Script" uid="uid://dt2qmiwh7q8ng" path="res://hud.gd" id="1_px13d"]
+[ext_resource type="FontFile" uid="uid://bw8ob8duujtks" path="res://assets/Kenney Bold.ttf" id="2_uj4j1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_leu8e"]
+font = ExtResource("2_uj4j1")
+font_size = 48
+
+[node name="HUD" type="CanvasLayer" unique_id=565480643]
+script = ExtResource("1_px13d")
+
+[node name="Message" type="Label" parent="." unique_id=357704886]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Coin Dash!"
+label_settings = SubResource("LabelSettings_leu8e")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=950195351]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Score" type="Label" parent="MarginContainer" unique_id=955764787]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_leu8e")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Time" type="Label" parent="MarginContainer" unique_id=1620702683]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_leu8e")
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="." unique_id=1540142575]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartButton" type="Button" parent="." unique_id=747538798]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -23.0
+offset_top = -31.0
+offset_right = 23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Start"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
