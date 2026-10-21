@@ -10,45 +10,59 @@ var screensize = Vector2.ZERO
 var playing = false
 
 func _ready():
-    screensize = get_viewport().get_visible_rect().size
-    $Player.screensize = screensize
-    new_game()
+	screensize = get_viewport().get_visible_rect().size
+	$Player.screensize = screensize
 
 func new_game():
-    playing = true
-    level = 1
-    score = 0
-    time_left = playtime
-    $Player.show()
-    $Player.start()
-    $GameTimer.start()
-    spawn_coins()
+	playing = true
+	level = 1
+	score = 0
+	time_left = playtime
+	$Player.start()
+	$GameTimer.start()
+	spawn_coins()
+	$HUD.update_score(score)
+	$HUD.update_timer(time_left)
 
 func spawn_coins():
-    for i in level + 4:
-        var c = coin_scene.instantiate()
-        add_child(c)
-        c.screensize = screensize
-        c.position = Vector2(randi_range(20, int(screensize.x) - 20),
-            randi_range(20, int(screensize.y) - 20))
+	for i in level + 4:
+		var c = coin_scene.instantiate()
+		add_child(c)
+		c.screensize = screensize
+		c.position = Vector2(randi_range(20, int(screensize.x) - 20),
+			randi_range(20, int(screensize.y) - 20))
 
 func _process(_delta):
-    if playing and get_tree().get_nodes_in_group("coins").size() == 0:
-        level += 1
-        time_left += 5
-        spawn_coins()
+	if playing and get_tree().get_nodes_in_group("coins").size() == 0:
+		level += 1
+		time_left += 5
+		spawn_coins()
 
 func _on_game_timer_timeout():
-    if not playing:
-        return
-    time_left -= 1
-    if time_left <= 0:
-        playing = false
-        $GameTimer.stop()
-        $Player.die()
-        print("Fim de jogo! Pontuação: ", score)
+	if not playing:
+		return
+	time_left -= 1
+	$HUD.update_timer(time_left)
+	if time_left <= 0:
+		game_over()
 
 func _on_player_pickup():
-    if playing:
-        score += 1
-        print("Moedas coletadas: ", score)
+	if not playing:
+		return
+	score += 1
+	$HUD.update_score(score)
+
+func _on_player_hurt():
+	if not playing:
+		return
+	game_over()
+
+func game_over():
+	playing = false
+	$GameTimer.stop()
+	get_tree().call_group("coins", "queue_free")
+	$HUD.show_game_over()
+	$Player.die()
+
+func _on_hud_start_game():
+	new_game()

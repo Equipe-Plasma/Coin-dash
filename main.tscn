@@ -1,15 +1,16 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://cvh0xuhpsti73"]
 
-[ext_resource type="Script" path="res://main.gd" id="1"]
+[ext_resource type="Script" uid="uid://c45w4jxrjg31d" path="res://main.gd" id="1"]
 [ext_resource type="PackedScene" path="res://player.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://coin.tscn" id="3"]
-[ext_resource type="Texture2D" path="res://assets/grass.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://ck2om4uahxmw7" path="res://assets/grass.png" id="4"]
+[ext_resource type="PackedScene" uid="uid://cki2gxlwwxw28" path="res://assets/hud.tscn" id="5_lquwl"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=1645068459]
 script = ExtResource("1")
 coin_scene = ExtResource("3")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=1156365503]
 z_index = -1
 texture_repeat = 2
 anchors_preset = 15
@@ -21,11 +22,14 @@ mouse_filter = 2
 texture = ExtResource("4")
 stretch_mode = 1
 
-[node name="Player" parent="." instance=ExtResource("2")]
+[node name="Player" parent="." unique_id=1354185426 instance=ExtResource("2")]
 z_index = 1
 
-[node name="GameTimer" type="Timer" parent="."]
-wait_time = 1.0
+[node name="GameTimer" type="Timer" parent="." unique_id=1743839912]
 
-[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
+[node name="HUD" parent="." unique_id=565480643 instance=ExtResource("5_lquwl")]
+
+[connection signal="hurt" from="Player" to="." method="_on_player_hurt"]
 [connection signal="pickup" from="Player" to="." method="_on_player_pickup"]
+[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
